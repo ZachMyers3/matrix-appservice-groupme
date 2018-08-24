@@ -10,10 +10,10 @@ var config    	= require("config-yml");
 
 const PORT = config.groupme_hook_port;
 const ROOM_ID = config.slack_room_id;
-const GROUPME_WEBHOOK_URL = "https://api.groupme.com/v3/bots/"
 const GROUPME_BOT_ID = config.slack_room_id;
 const HOMESERVER_URL = config.homeserver.url;
 const USERNAME_PREFIX = config.username_prefix;
+const BOT_NAME = config.bot_username;
 
 http.createServer(function (request, response) {
   console.log(request.method + " " + request.url);
@@ -52,7 +52,7 @@ new Cli({
     generateRegistration: function(reg, callback) {
         reg.setHomeserverToken(AppServiceRegistration.generateToken());
         reg.setAppServiceToken(AppServiceRegistration.generateToken());
-        reg.setSenderLocalpart("gmbot");
+        reg.setSenderLocalpart(BOT_NAME);
 	var pattern = USERNAME_PREFIX + ".*"
         reg.addRegexPattern("users", pattern, true);
         callback(reg);
@@ -76,26 +76,6 @@ new Cli({
                     console.log("*************************")
                     console.log(event)
                     postMessage(event.content.body, event.user_id);
-
-                    /*
-                    requestLib({
-                        method: "POST",
-                        json: true,
-                        uri: GROUPME_WEBHOOK_URL,
-                        body: {
-                            bot_id: event.user_id,
-                            text: event.content.body
-                        }
-                    }, function(err, res) {
-                        console.log(err);
-                        if (err) {
-                            console.log("HTTP Error: %s", err);
-                        }
-                        else {
-                            console.log("HTTP %s", res.statusCode);
-                        }
-                    });
-                    */
                 }
             }
         });
