@@ -12,7 +12,7 @@ const PORT = config.groupme_hook_port;
 const ROOM_ID = config.slack_room_id;
 const GROUPME_WEBHOOK_URL = "https://api.groupme.com/v3/bots/"
 const GROUPME_BOT_ID = config.slack_room_id;
-const HOMESERVER_URL = config.homeserver_url;
+const HOMESERVER_URL = config.homeserver.url;
 const USERNAME_PREFIX = config.username_prefix;
 
 http.createServer(function (request, response) {
@@ -59,7 +59,7 @@ new Cli({
     },
     run: function(port, config) {
         bridge = new Bridge({
-            homeserverUrl: "http://localhost:8008",
+            homeserverUrl: HOMESERVER_URL,
             domain: "localhost",
             registration: "groupme-registration.yaml",
 
