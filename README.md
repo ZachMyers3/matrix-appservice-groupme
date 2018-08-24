@@ -1,5 +1,5 @@
 # matrix-appservice-groupme
-## 
+## Usage 
 ```
 node index.js -r -u "http://localhost:9000" # remember to add the registration!
 
