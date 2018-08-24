@@ -1,5 +1,6 @@
 groupme_hook_port: 9889
 inbound_uri_prefix: "https://my.server.here:9889/"
+homeserver_url: "https://my.server.here"
 bot_username: "groupme_bot"
 username_prefix: "gm_"
 

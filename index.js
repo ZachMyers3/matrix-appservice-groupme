@@ -6,11 +6,14 @@ var AppServiceRegistration
 var http        = require("http");
 var requestLib  = require("request");
 var qs 		= require("querystring");
+var config    	= require("config-yml");
 
-const PORT = 9889;
-const ROOM_ID = "!zeGfOsnOVRaFQzfljM:gmbridge.ddns.net";
+const PORT = config.groupme_hook_port;
+const ROOM_ID = config.slack_room_id;
 const GROUPME_WEBHOOK_URL = "https://api.groupme.com/v3/bots/"
-const GROUPME_BOT_ID = "d321872b4b13d29e9cedaa1da7"
+const GROUPME_BOT_ID = config.slack_room_id;
+const HOMESERVER_URL = config.homeserver_url;
+const USERNAME_PREFIX = config.username_prefix;
 
 http.createServer(function (request, response) {
   console.log(request.method + " " + request.url);
@@ -25,7 +28,7 @@ http.createServer(function (request, response) {
     console.log(params)
     if (params.name !== "Matrix Bridge") {
       var name = removeEmojis(params.name);
-      var intent = bridge.getIntent("@gm_" + name + ":gmbridge.ddns.net");
+      var intent = bridge.getIntent(USERNAME_PREFIX + name + ":" + HOMESERVER_URL);
       intent.sendText(ROOM_ID, params.text);
     }
     response.writeHead(200, {"Content-Type": "application/json"});
@@ -50,7 +53,8 @@ new Cli({
         reg.setHomeserverToken(AppServiceRegistration.generateToken());
         reg.setAppServiceToken(AppServiceRegistration.generateToken());
         reg.setSenderLocalpart("gmbot");
-        reg.addRegexPattern("users", "@gm_.*", true);
+	var pattern = USERNAME_PREFIX + ".*"
+        reg.addRegexPattern("users", pattern, true);
         callback(reg);
     },
     run: function(port, config) {
