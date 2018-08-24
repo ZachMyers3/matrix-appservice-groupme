@@ -1,0 +1,7 @@
+groupme_hook_port: 9889
+inbound_uri_prefix: "https://my.server.here:9889/"
+bot_username: "groupme_bot"
+username_prefix: "gm_"
+
+slack_room_id: "ROOM_ID_HERE"
+groupme_bot_id: "BOT_ID_HERE"
